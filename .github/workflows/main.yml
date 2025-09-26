@@ -21,6 +21,16 @@ jobs:
             bin: rlviser.exe
             name: rlviser-x86_64-pc-windows-msvc.zip
 
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            bin: rlviser
+            name: rlviser-x86_64-apple-darwin.tar.gz
+
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            bin: rlviser
+            name: rlviser-aarch64-apple-darwin.tar.gz
+
     runs-on: ${{ matrix.platform.os }}
     steps:
       - name: Checkout
@@ -47,8 +57,14 @@ jobs:
         with:
           name: linux
           path: target/**/release/rlviser
+      - name: Upload artifact (macOS)
+        if: contains(matrix.platform.os, 'macos')
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: macos
+          path: target/**/release/rlviser
   publish:
-    needs: [release]
+    needs: [release, build-wheels]
     name: Publish
     runs-on: ubuntu-latest
     steps:
@@ -59,10 +75,40 @@ jobs:
         with:
           path: target/
           merge-multiple: true
+      - name: Download wheels
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+          merge-multiple: true
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          files: ./**/target/**
+          files: |
+            ./**/target/**
+            dist/*/*
           generate_release_notes: true
           body: |
             Extra keybinds for RLViser are included in the README
+
+  build-wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Build wheels
+        uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          args: --release -o dist --find-interpreter
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: dist
