@@ -4,9 +4,14 @@ name = "rlviser"
 edition = "2024"
 publish = false
 
+[lib]
+name = "rlviser"
+crate-type = ["cdylib"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+pyo3 = { version = "0.21.2", features = ["extension-module"] }
 bevy_framepace = { version = "0.19", default-features = false }
 bevy_egui = { version = "0.36.0", default-features = false, features = ["default_fonts", "render"] }
 bevy_vector_shapes = "0.10"
@@ -48,7 +53,6 @@ features = [
 ]
 
 [features]
-default = ["bevy/dynamic_linking"]
 full_load = []
 ssao = []
 team_goal_barriers = []
