@@ -49,19 +49,19 @@ jobs:
         if: contains(matrix.platform.os, 'windows')
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: windows
+          name: binary-windows-${{ matrix.platform.target }}
           path: target/**/release/rlviser.exe
       - name: Upload artifact (Ubuntu)
         if: contains(matrix.platform.os, 'ubuntu')
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: linux
+          name: binary-linux-${{ matrix.platform.target }}
           path: target/**/release/rlviser
       - name: Upload artifact (macOS)
         if: contains(matrix.platform.os, 'macos')
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: macos
+          name: binary-macos-${{ matrix.platform.target }}
           path: target/**/release/rlviser
   publish:
     needs: [release, build-wheels]
@@ -73,13 +73,29 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: binary-*
           path: target/
           merge-multiple: true
       - name: Download wheels
         uses: actions/download-artifact@v4
         with:
-          path: dist/
-          merge-multiple: true
+          name: wheels-x86_64-unknown-linux-gnu
+          path: dist/wheels-x86_64-unknown-linux-gnu
+      - name: Download wheels (Windows)
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-x86_64-pc-windows-msvc
+          path: dist/wheels-x86_64-pc-windows-msvc
+      - name: Download wheels (macOS x86_64)
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-x86_64-apple-darwin
+          path: dist/wheels-x86_64-apple-darwin
+      - name: Download wheels (macOS aarch64)
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-aarch64-apple-darwin
+          path: dist/wheels-aarch64-apple-darwin
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
