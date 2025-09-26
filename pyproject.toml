@@ -1,6 +1,6 @@
 
 [build-system]
-requires = ["maturin>=1.0,<2.0"]
+requires = ["maturin==1.9.4"]
 build-backend = "maturin"
 
 [project]
@@ -8,8 +8,8 @@ name = "rlviser"
 version = "0.8.2"
 requires-python = ">=3.8"
 classifiers = [
-    "Programming Language :: Rust",
-    "Programming Language :: Python :: 3",
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
 ]
 
 [tool.maturin]
