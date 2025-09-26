@@ -78,6 +78,7 @@ jobs:
       - name: Download wheels
         uses: actions/download-artifact@v4
         with:
+          name: wheels-*
           path: dist/
           merge-multiple: true
       - name: Publish to GitHub Releases
@@ -85,17 +86,25 @@ jobs:
         with:
           files: |
             ./**/target/**
-            dist/*/*
+            dist/*
           generate_release_notes: true
           body: |
             Extra keybinds for RLViser are included in the README
 
   build-wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.platform.os }} (${{ matrix.platform.target }})
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-latest, macos-latest]
+        platform:
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: macos-latest
+            target: aarch64-apple-darwin
 
     steps:
       - uses: actions/checkout@v4
@@ -105,10 +114,11 @@ jobs:
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
+          target: ${{ matrix.platform.target }}
           command: build
           args: --release -o dist --find-interpreter
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.platform.target }}
           path: dist
