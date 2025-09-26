@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 
 #[pymodule]
-fn rlviser(_py: Python, m: &PyModule) -> PyResult<()> {
+fn rlviser(m: &Bound<'_, PyModule>) -> PyResult<()> {
     Ok(())
 }
