@@ -48,7 +48,6 @@ features = [
 ]
 
 [features]
-default = ["bevy/dynamic_linking"]
 full_load = []
 ssao = []
 team_goal_barriers = []
