@@ -61,7 +61,7 @@ features = [
 ]
 
 [features]
-default = ["bevy/dynamic_linking"]
+default = []
 full_load = []
 team_goal_barriers = []
 threaded = ["bevy/multi_threaded"]
@@ -77,7 +77,6 @@ opt-level = 3
 [profile.release]
 lto = true
 strip = true
-panic = "abort"
 
 [profile.release-with-debug]
 inherits = "release"
