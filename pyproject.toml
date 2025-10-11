@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel", "setuptools-rust"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "rlviser"
 version = "0.8.3"
 description = "RLViser - Rocket League replay visualizer"
-readme = "README_PYPI.md"
+readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "RLViser Contributors"},
@@ -26,9 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Rust",
 ]
-dependencies = [
-    "torch>=1.13.1",
-]
+dependencies = []
 
 [project.urls]
 "Homepage" = "https://github.com/yourusername/rlviser"
