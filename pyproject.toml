@@ -20,6 +20,9 @@ classifiers = [
     "Programming Language :: Rust",
 ]
 
+[project.scripts]
+pyviser-install = "pyviser.install_binary:main"
+
 [tool.setuptools]
 packages = ["pyviser"]
 include-package-data = true
