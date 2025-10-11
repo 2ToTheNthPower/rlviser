@@ -20,22 +20,22 @@ jobs:
         platform:
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
-            bin: rlviser
+            bin: pyviser
             archive: tar.gz
             
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            bin: rlviser.exe
+            bin: pyviser.exe
             archive: zip
             
           - os: macos-latest
             target: x86_64-apple-darwin
-            bin: rlviser
+            bin: pyviser
             archive: tar.gz
             
           - os: macos-latest
             target: aarch64-apple-darwin
-            bin: rlviser
+            bin: pyviser
             archive: tar.gz
 
     runs-on: ${{ matrix.platform.os }}
@@ -67,7 +67,7 @@ jobs:
         if: matrix.archive == 'tar.gz'
         run: |
           cd target/${{ matrix.platform.target }}/release
-          tar czf ../../../rlviser-${{ matrix.platform.target }}.tar.gz ${{ matrix.platform.bin }}
+          tar czf ../../../pyviser-${{ matrix.platform.target }}.tar.gz ${{ matrix.platform.bin }}
           cd -
           
       - name: Package (zip)
@@ -75,20 +75,20 @@ jobs:
         shell: pwsh
         run: |
           cd target/${{ matrix.platform.target }}/release
-          Compress-Archive -Path ${{ matrix.platform.bin }} -DestinationPath ../../../rlviser-${{ matrix.platform.target }}.zip
+          Compress-Archive -Path ${{ matrix.platform.bin }} -DestinationPath ../../../pyviser-${{ matrix.platform.target }}.zip
           cd -
           
       - name: List files for debugging
         run: |
           echo "Current directory:"
           ls -la
-          echo "Looking for: rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}"
+          echo "Looking for: pyviser-${{ matrix.platform.target }}.${{ matrix.archive }}"
           
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rlviser-${{ matrix.platform.target }}
-          path: rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}
+          name: pyviser-${{ matrix.platform.target }}
+          path: pyviser-${{ matrix.platform.target }}.${{ matrix.archive }}
 
   publish-release:
     name: Publish Release
@@ -124,12 +124,12 @@ jobs:
             ### Installation
             
             Download the appropriate binary for your platform:
-            - **Linux (x86_64)**: `rlviser-x86_64-unknown-linux-gnu.tar.gz`
-            - **Windows (x86_64)**: `rlviser-x86_64-pc-windows-msvc.zip`
-            - **macOS (Intel)**: `rlviser-x86_64-apple-darwin.tar.gz`
-            - **macOS (Apple Silicon)**: `rlviser-aarch64-apple-darwin.tar.gz`
+            - **Linux (x86_64)**: `pyviser-x86_64-unknown-linux-gnu.tar.gz`
+            - **Windows (x86_64)**: `pyviser-x86_64-pc-windows-msvc.zip`
+            - **macOS (Intel)**: `pyviser-x86_64-apple-darwin.tar.gz`
+            - **macOS (Apple Silicon)**: `pyviser-aarch64-apple-darwin.tar.gz`
             
-            Extract and run the `rlviser` executable.
+            Extract and run the `pyviser` executable.
             
             ### Notes
             Extra keybinds for RLViser are included in the README

@@ -78,15 +78,15 @@ jobs:
         if: contains(matrix.platform.os, 'windows')
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path rlviser/bin
-          Copy-Item target/${{ matrix.platform.target }}/release/rlviser.exe rlviser/bin/
+          New-Item -ItemType Directory -Force -Path pyviser/bin
+          Copy-Item target/${{ matrix.platform.target }}/release/pyviser.exe pyviser/bin/
           
       - name: Prepare binary for wheel (Unix)
         if: contains(matrix.platform.os, 'ubuntu') || contains(matrix.platform.os, 'macos')
         run: |
-          mkdir -p rlviser/bin
-          cp target/${{ matrix.platform.target }}/release/rlviser rlviser/bin/
-          chmod +x rlviser/bin/rlviser
+          mkdir -p pyviser/bin
+          cp target/${{ matrix.platform.target }}/release/pyviser pyviser/bin/
+          chmod +x pyviser/bin/pyviser
           
       - name: Build wheel
         run: |
@@ -129,11 +129,16 @@ jobs:
   # Skip wheel testing since wheels are platform-specific binaries
   # The wheels will be tested when users install them on the correct platform
 
-  publish:
-    name: Publish to PyPI
+  publish-to-pypi:
+    name: Publish Python 🐍 distribution 📦 to PyPI
     needs: [build-wheels, build-sdist]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish == 'true'
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pyviser
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
     
     steps:
       - name: Download all artifacts
@@ -148,17 +153,7 @@ jobs:
           find dist -name "*.tar.gz" -exec mv {} final_dist/ \;
           ls -la final_dist/
           
-      - name: Publish to Test PyPI
+      - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository-url: https://test.pypi.org/legacy/
-          packages-dir: final_dist/
-          skip-existing: true
-        continue-on-error: true
-          
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: final_dist/

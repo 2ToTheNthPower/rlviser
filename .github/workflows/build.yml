@@ -19,19 +19,19 @@ jobs:
         platform:
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
-            bin: rlviser
+            bin: pyviser
             
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            bin: rlviser.exe
+            bin: pyviser.exe
             
           - os: macos-latest
             target: x86_64-apple-darwin
-            bin: rlviser
+            bin: pyviser
             
           - os: macos-latest
             target: aarch64-apple-darwin
-            bin: rlviser
+            bin: pyviser
 
     runs-on: ${{ matrix.platform.os }}
     
@@ -62,12 +62,12 @@ jobs:
         if: contains(matrix.platform.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
-          name: rlviser-${{ matrix.platform.target }}
-          path: target/${{ matrix.platform.target }}/release/rlviser.exe
+          name: pyviser-${{ matrix.platform.target }}
+          path: target/${{ matrix.platform.target }}/release/pyviser.exe
           
       - name: Upload binary (Unix)
         if: contains(matrix.platform.os, 'ubuntu') || contains(matrix.platform.os, 'macos')
         uses: actions/upload-artifact@v4
         with:
-          name: rlviser-${{ matrix.platform.target }}
-          path: target/${{ matrix.platform.target }}/release/rlviser
+          name: pyviser-${{ matrix.platform.target }}
+          path: target/${{ matrix.platform.target }}/release/pyviser

@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rlviser"
+name = "pyviser"
 version = "0.8.9"
-description = "RLViser - Rocket League replay visualizer"
+description = "PyViser - Rocket League replay visualizer"
 readme = "README.md"
 license = "MIT"
 authors = [
@@ -21,11 +21,11 @@ classifiers = [
 ]
 
 [project.scripts]
-rlviser = "rlviser.__main__:main"
+pyviser = "pyviser.__main__:main"
 
 [tool.setuptools]
-packages = ["rlviser"]
+packages = ["pyviser"]
 include-package-data = false
 
 [tool.setuptools.package-data]
-rlviser = ["bin/*"]
+pyviser = ["bin/*"]
