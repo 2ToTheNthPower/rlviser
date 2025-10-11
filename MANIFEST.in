@@ -1,5 +1,6 @@
 include README.md
 include LICENSE
-recursive-include pyviser/bin *
+include cache.zip
+recursive-include pyviser *
 global-exclude *.pyc
 global-exclude __pycache__
