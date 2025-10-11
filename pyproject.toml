@@ -37,7 +37,7 @@ rlviser = "rlviser:main"
 
 [tool.setuptools]
 packages = ["rlviser"]
-include-package-data = true
+include-package-data = false
 
 [tool.setuptools.package-data]
-rlviser = ["bin/*"]
+rlviser = ["bin/*", "bin/**/*"]
