@@ -83,8 +83,7 @@ jobs:
         with:
           name: rlviser-${{ matrix.platform.target }}
           path: |
-            rlviser-${{ matrix.platform.target }}.tar.gz
-            rlviser-${{ matrix.platform.target }}.zip
+            rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}
 
   publish-release:
     name: Publish Release

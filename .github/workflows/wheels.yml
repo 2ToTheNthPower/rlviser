@@ -90,8 +90,8 @@ jobs:
           
       - name: Build wheel
         run: |
-          python -m pip install --upgrade pip wheel
-          python -m pip wheel . --no-deps -w dist/
+          python -m pip install --upgrade pip wheel build
+          python -m build --wheel
           
       - name: Fix wheel platform tag
         shell: python
