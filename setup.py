@@ -1,9 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+from setuptools_rust import Binding, RustBin
 
 setup(
-    packages=find_packages(),
-    include_package_data=True,
-    package_data={
-        "pyviser": ["bin/*"],
-    },
+    rust_extensions=[
+        RustBin(
+            "pyviser",
+            binding=Binding.Exec,
+            features=["threaded"],
+            args=["--no-default-features"],
+        )
+    ],
 )
