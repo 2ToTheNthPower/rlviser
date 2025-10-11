@@ -78,13 +78,15 @@ jobs:
         if: contains(matrix.platform.os, 'windows')
         shell: pwsh
         run: |
-          Copy-Item target/${{ matrix.platform.target }}/release/rlviser.exe ./
+          New-Item -ItemType Directory -Force -Path rlviser/bin
+          Copy-Item target/${{ matrix.platform.target }}/release/rlviser.exe rlviser/bin/
           
       - name: Prepare binary for wheel (Unix)
         if: contains(matrix.platform.os, 'ubuntu') || contains(matrix.platform.os, 'macos')
         run: |
-          cp target/${{ matrix.platform.target }}/release/rlviser ./
-          chmod +x rlviser
+          mkdir -p rlviser/bin
+          cp target/${{ matrix.platform.target }}/release/rlviser rlviser/bin/
+          chmod +x rlviser/bin/rlviser
           
       - name: Build wheel
         run: |
