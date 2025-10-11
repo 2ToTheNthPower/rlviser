@@ -6,13 +6,13 @@ A lightweight visualizer for [rocketsim-rs](https://github.com/VirxEC/rocketsim-
 
 Any language can communicate with the visualizer by sending UDP packets in the correct format, but `rocketsim-rs` has a `GameState.to_bytes()` function that does this automatically.
 
-![image](https://github.com/VirxEC/rlviser/assets/35614515/47613661-754a-4549-bcef-13df399645be)
+![image](https://github.com/VirxEC/pyviser/assets/35614515/47613661-754a-4549-bcef-13df399645be)
 
 ### Usage
 
-To see an example of how to communicate with the visualizer, see the [example](https://github.com/VirxEC/rocketsim-rs/blob/master/examples/rlviser_socket.rs) in the [rocketsim-rs](https://github.com/VirxEC/rocketsim-rs) repository.
+To see an example of how to communicate with the visualizer, see the [example](https://github.com/VirxEC/rocketsim-rs/blob/master/examples/pyviser_socket.rs) in the [rocketsim-rs](https://github.com/VirxEC/rocketsim-rs) repository.
 
-You can also choose to use the integrated support in [RLGym 2.0](https://github.com/lucas-emery/rocket-league-gym) and [RLGym-PPO](https://github.com/AechPro/rlgym-ppo) or use the [RLViser-Py](https://pypi.org/project/rlviser-py/) library to interface directly from Python via [RocketSim](https://pypi.org/project/RocketSim/) classes.
+You can also choose to use the integrated support in [RLGym 2.0](https://github.com/lucas-emery/rocket-league-gym) and [RLGym-PPO](https://github.com/AechPro/rlgym-ppo) or use the [PyViser-Py](https://pypi.org/project/pyviser-py/) library to interface directly from Python via [RocketSim](https://pypi.org/project/RocketSim/) classes.
 
 ### Controls
 
@@ -44,4 +44,4 @@ You can also choose to use the integrated support in [RLGym 2.0](https://github.
 
 Currently, both standard soccer and hoops are supported.
 
-![image](https://github.com/VirxEC/rlviser/assets/35614515/d804d7e5-b78e-4a0a-9133-38e5aed0681d)
+![image](https://github.com/VirxEC/pyviser/assets/35614515/d804d7e5-b78e-4a0a-9133-38e5aed0681d)
