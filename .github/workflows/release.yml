@@ -78,10 +78,19 @@ jobs:
           Compress-Archive -Path ${{ matrix.platform.bin }} -DestinationPath ../../../pyviser-${{ matrix.platform.target }}.zip
           cd -
           
-      - name: List files for debugging
+      - name: List files for debugging (Unix)
+        if: runner.os != 'Windows'
         run: |
           echo "Current directory:"
           ls -la
+          echo "Looking for: pyviser-${{ matrix.platform.target }}.${{ matrix.archive }}"
+          
+      - name: List files for debugging (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          echo "Current directory:"
+          Get-ChildItem
           echo "Looking for: pyviser-${{ matrix.platform.target }}.${{ matrix.archive }}"
           
       - name: Upload release artifact
