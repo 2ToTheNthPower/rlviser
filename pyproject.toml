@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "setuptools-rust", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyviser"
-version = "0.9.14"
+version = "0.9.15"
 description = "PyViser - Rocket League replay visualizer"
 readme = "README.md"
 license = "MIT"
@@ -33,10 +33,4 @@ packages = ["pyviser"]
 include-package-data = true
 
 [tool.setuptools.package-data]
-pyviser = ["cache.zip"]
-
-[[tool.setuptools-rust.bins]]
-target = "pyviser"
-path = "Cargo.toml"
-features = ["threaded"]
-args = ["--no-default-features"]
+pyviser = ["cache.zip", "pyviser", "pyviser.exe"]

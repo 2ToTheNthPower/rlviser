@@ -37,6 +37,9 @@ jobs:
             source $HOME/.cargo/env
             rustup default stable
             yum install -y libX11-devel || apt-get update && apt-get install -y libx11-dev
+          CIBW_BEFORE_BUILD: |
+            cargo build --release --no-default-features --features threaded
+            cp target/release/pyviser pyviser/ || cp target/release/pyviser.exe pyviser/
           CIBW_BEFORE_ALL_MACOS: |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             source $HOME/.cargo/env

@@ -33,3 +33,4 @@ pip-delete-this-directory.txt
 .mypy_cache/
 .ruff_cache/
 rlviser/bin/
+pyviser/pyviser
