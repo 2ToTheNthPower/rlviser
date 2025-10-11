@@ -78,12 +78,17 @@ jobs:
           Compress-Archive -Path ${{ matrix.platform.bin }} -DestinationPath ../../../rlviser-${{ matrix.platform.target }}.zip
           cd -
           
+      - name: List files for debugging
+        run: |
+          echo "Current directory:"
+          ls -la
+          echo "Looking for: rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}"
+          
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
           name: rlviser-${{ matrix.platform.target }}
-          path: |
-            rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}
+          path: rlviser-${{ matrix.platform.target }}.${{ matrix.archive }}
 
   publish-release:
     name: Publish Release
