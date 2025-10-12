@@ -43,6 +43,8 @@ jobs:
           CIBW_ARCHS_MACOS: "native"
           # Maturin handles Rust installation and building
           CIBW_BUILD_FRONTEND: "build"
+          # Use manylinux2014 for better compatibility
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           # Install system dependencies before building
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y libX11-devel wayland-devel alsa-lib-devel systemd-devel libxkbcommon-devel ||
