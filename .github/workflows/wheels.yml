@@ -27,26 +27,32 @@ jobs:
           CIBW_SKIP: "pp* *-musllinux* *i686"
           # Build for Python 3.9-3.13 (all currently supported versions)
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
-          # Explicitly set architectures per OS
+          # Explicitly set architectures per OS (native only for macOS to avoid cross-compilation)
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_ARCHS_WINDOWS: "AMD64"
-          CIBW_ARCHS_MACOS: "x86_64 arm64 universal2"
+          CIBW_ARCHS_MACOS: "native"
           # Install Rust in the build environment
           CIBW_BEFORE_ALL_LINUX: |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             source $HOME/.cargo/env
             rustup default stable
             yum install -y libX11-devel || apt-get update && apt-get install -y libx11-dev
-          CIBW_BEFORE_BUILD: |
-            cargo build --release --no-default-features --features threaded
-            cp target/release/pyviser pyviser/ || cp target/release/pyviser.exe pyviser/
+          CIBW_BEFORE_BUILD_LINUX: >
+            cargo build --release --no-default-features --features threaded &&
+            python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
+          CIBW_BEFORE_BUILD_WINDOWS: >
+            cargo build --release --no-default-features --features threaded &&
+            python -c "import shutil; shutil.copy2('target/release/pyviser.exe', 'pyviser/')"
+          CIBW_BEFORE_BUILD_MACOS: >
+            cargo build --release --no-default-features --features threaded &&
+            python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
           CIBW_BEFORE_ALL_MACOS: |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             source $HOME/.cargo/env
             rustup default stable
-          CIBW_BEFORE_ALL_WINDOWS: |
-            curl -sSf https://win.rustup.rs/x86_64 -o rustup-init.exe
-            rustup-init.exe -y
+          CIBW_BEFORE_ALL_WINDOWS: >
+            curl -sSf https://win.rustup.rs/x86_64 -o rustup-init.exe &&
+            rustup-init.exe -y --default-toolchain stable
           CIBW_ENVIRONMENT_LINUX: PATH=/root/.cargo/bin:$PATH
           CIBW_ENVIRONMENT_MACOS: PATH=$HOME/.cargo/bin:$PATH
           CIBW_ENVIRONMENT_WINDOWS: 'PATH=C:\Users\runneradmin\.cargo\bin;$PATH'
@@ -55,7 +61,6 @@ jobs:
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
           # Test that the wheel works
           CIBW_TEST_COMMAND: python -c "import pyviser; print('pyviser imported successfully')"
-          CIBW_TEST_SKIP: "*-macosx_arm64"  # Skip ARM64 tests on x86_64 runners
 
       - uses: actions/upload-artifact@v4
         with:
