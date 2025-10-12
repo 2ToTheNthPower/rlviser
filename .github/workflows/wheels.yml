@@ -39,13 +39,13 @@ jobs:
             (yum install -y libX11-devel wayland-devel alsa-lib-devel systemd-devel libxkbcommon-devel || (apt-get update && apt-get install -y libx11-dev libwayland-dev libasound2-dev libudev-dev libxkbcommon-dev))
           CIBW_BEFORE_BUILD_LINUX: >
             cargo build --release --no-default-features --features threaded &&
-            python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
+            python -c "import shutil, os; shutil.copy2('target/release/pyviser', 'pyviser/'); os.chmod('pyviser/pyviser', 0o755); print('Binary copied:', os.path.exists('pyviser/pyviser'), 'size:', os.path.getsize('pyviser/pyviser') if os.path.exists('pyviser/pyviser') else 0)"
           CIBW_BEFORE_BUILD_WINDOWS: >
             cargo build --release --no-default-features --features threaded &&
-            python -c "import shutil; shutil.copy2('target/release/pyviser.exe', 'pyviser/')"
+            python -c "import shutil, os; shutil.copy2('target/release/pyviser.exe', 'pyviser/'); print('Binary copied:', os.path.exists('pyviser/pyviser.exe'), 'size:', os.path.getsize('pyviser/pyviser.exe') if os.path.exists('pyviser/pyviser.exe') else 0)"
           CIBW_BEFORE_BUILD_MACOS: >
             cargo build --release --no-default-features --features threaded &&
-            python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
+            python -c "import shutil, os; shutil.copy2('target/release/pyviser', 'pyviser/'); os.chmod('pyviser/pyviser', 0o755); print('Binary copied:', os.path.exists('pyviser/pyviser'), 'size:', os.path.getsize('pyviser/pyviser') if os.path.exists('pyviser/pyviser') else 0)"
           CIBW_BEFORE_ALL_MACOS: |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &&
             source $HOME/.cargo/env &&

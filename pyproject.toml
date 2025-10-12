@@ -33,4 +33,4 @@ packages = ["pyviser"]
 include-package-data = true
 
 [tool.setuptools.package-data]
-pyviser = ["cache.zip", "pyviser", "pyviser.exe"]
+pyviser = ["*"]
