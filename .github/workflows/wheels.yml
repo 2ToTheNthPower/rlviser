@@ -55,7 +55,6 @@ jobs:
             rustup-init.exe -y --default-toolchain stable
           CIBW_ENVIRONMENT_LINUX: PATH=/root/.cargo/bin:$PATH
           CIBW_ENVIRONMENT_MACOS: PATH=$HOME/.cargo/bin:$PATH
-          CIBW_ENVIRONMENT_WINDOWS: 'PATH=C:\Users\runneradmin\.cargo\bin;%PATH%'
           # Use manylinux2014 for better compatibility
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
