@@ -33,10 +33,10 @@ jobs:
           CIBW_ARCHS_MACOS: "native"
           # Install Rust in the build environment
           CIBW_BEFORE_ALL_LINUX: |
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source $HOME/.cargo/env
-            rustup default stable
-            yum install -y libX11-devel || apt-get update && apt-get install -y libx11-dev
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &&
+            source $HOME/.cargo/env &&
+            rustup default stable &&
+            (yum install -y libX11-devel || (apt-get update && apt-get install -y libx11-dev))
           CIBW_BEFORE_BUILD_LINUX: >
             cargo build --release --no-default-features --features threaded &&
             python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
@@ -47,8 +47,8 @@ jobs:
             cargo build --release --no-default-features --features threaded &&
             python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
           CIBW_BEFORE_ALL_MACOS: |
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source $HOME/.cargo/env
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &&
+            source $HOME/.cargo/env &&
             rustup default stable
           CIBW_BEFORE_ALL_WINDOWS: >
             curl -sSf https://win.rustup.rs/x86_64 -o rustup-init.exe &&
