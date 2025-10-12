@@ -23,8 +23,45 @@ use bevy::{
     window::PresentMode,
 };
 use settings::{cache_handler, gui};
-use std::env;
+use std::{env, fs, io, path::Path};
 use tracing::Level;
+use zip::ZipArchive;
+
+// Embed cache.zip at compile time
+const CACHE_ZIP: &[u8] = include_bytes!("../cache.zip");
+
+/// Extract embedded cache.zip if cache/ directory doesn't exist
+fn extract_cache_if_needed() -> io::Result<()> {
+    let cache_dir = Path::new("cache");
+
+    // Only extract if cache directory doesn't exist
+    if cache_dir.exists() {
+        return Ok(());
+    }
+
+    println!("Extracting game assets for first run...");
+
+    let cursor = io::Cursor::new(CACHE_ZIP);
+    let mut archive = ZipArchive::new(cursor)?;
+
+    for i in 0..archive.len() {
+        let mut file = archive.by_index(i)?;
+        let outpath = file.mangled_name();
+
+        if file.is_dir() {
+            fs::create_dir_all(&outpath)?;
+        } else {
+            if let Some(p) = outpath.parent() {
+                fs::create_dir_all(p)?;
+            }
+            let mut outfile = fs::File::create(&outpath)?;
+            io::copy(&mut file, &mut outfile)?;
+        }
+    }
+
+    println!("Assets extracted successfully");
+    Ok(())
+}
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
 enum GameLoadState {
@@ -44,6 +81,11 @@ pub struct ServerPort {
 }
 
 fn main() {
+    // Extract cache on first run
+    if let Err(e) = extract_cache_if_needed() {
+        eprintln!("Warning: Failed to extract cache: {}", e);
+    }
+
     let mut args = env::args();
 
     // read the first argument and treat it as the port to connect to (u16)
