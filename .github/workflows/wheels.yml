@@ -43,6 +43,10 @@ jobs:
           CIBW_ARCHS_MACOS: "native"
           # Maturin handles Rust installation and building
           CIBW_BUILD_FRONTEND: "build"
+          # Install system dependencies before building
+          CIBW_BEFORE_ALL_LINUX: |
+            yum install -y libX11-devel wayland-devel alsa-lib-devel systemd-devel libxkbcommon-devel ||
+            (apt-get update && apt-get install -y libx11-dev libwayland-dev libasound2-dev libudev-dev libxkbcommon-dev)
 
       - uses: actions/upload-artifact@v4
         with:
