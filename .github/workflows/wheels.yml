@@ -36,7 +36,7 @@ jobs:
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &&
             source $HOME/.cargo/env &&
             rustup default stable &&
-            (yum install -y libX11-devel || (apt-get update && apt-get install -y libx11-dev))
+            (yum install -y libX11-devel wayland-devel alsa-lib-devel systemd-devel libxkbcommon-devel || (apt-get update && apt-get install -y libx11-dev libwayland-dev libasound2-dev libudev-dev libxkbcommon-dev))
           CIBW_BEFORE_BUILD_LINUX: >
             cargo build --release --no-default-features --features threaded &&
             python -c "import shutil; shutil.copy2('target/release/pyviser', 'pyviser/')"
