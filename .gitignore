@@ -10,7 +10,8 @@ umodel*
 settings.txt
 /collision_meshes
 /cache
-/.cargo
+/.cargo/*
+!/.cargo/config.toml
 
 # Python
 __pycache__/
