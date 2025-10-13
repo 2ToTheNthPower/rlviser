@@ -14,6 +14,14 @@ The goal of this repository is to provide pre-built pip-installable wheels to Py
 pip install pyviser
 ```
 
+### Platform Support
+
+**Currently only macOS (Apple Silicon/ARM64) is supported via pip install.**
+
+Windows and Linux support is in development. If you're interested in helping get these platforms working, contributions are very welcome! Please see the [GitHub repository](https://github.com/2ToTheNthPower/rlviser) for more information.
+
+For other platforms, you can build from source by cloning the repository and using `maturin build --release`.
+
 ## About RLViser
 
 RLViser is a lightweight visualizer for [rocketsim-rs](https://github.com/VirxEC/rocketsim-rs) binds that listens for UDP packets.

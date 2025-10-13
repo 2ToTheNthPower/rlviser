@@ -15,7 +15,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-latest, macos-14]
+        # Currently only building for ARM macOS
+        # TODO: Fix Windows and Linux builds - contributions welcome!
+        # os: [ubuntu-22.04, windows-latest, macos-14]
+        os: [macos-14]
 
     steps:
       - uses: actions/checkout@v4
